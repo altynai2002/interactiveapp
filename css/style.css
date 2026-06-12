@@ -1,0 +1,260 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Georgia, serif;
+  background: #f0ece6;
+  color: #1a1a1a;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ─── SCREENS ─── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ─────────────────────────────────────────
+   ГЛАВНЫЙ ЭКРАН
+───────────────────────────────────────── */
+.main-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: normal;
+  margin-bottom: 0.4rem;
+}
+.main-subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 2rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.char-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 1.25rem 0.75rem;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.char-card:hover { transform: translateY(-3px); border-color: #aaa; }
+
+.char-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f0ece6;
+  border: 1px solid #e0dbd4;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+.char-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.char-name { font-size: 15px; font-weight: bold; margin-bottom: 0.4rem; }
+.char-info { font-size: 12px; color: #777; line-height: 1.6; }
+
+/* ─────────────────────────────────────────
+   ЭКРАН ИСТОРИИ — внешняя карточка
+───────────────────────────────────────── */
+.story-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Шапка */
+.story-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #eee;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #555;
+  padding: 0;
+  line-height: 1;
+}
+.back-btn:hover { color: #000; }
+
+.story-title { font-size: 15px; font-weight: normal; font-family: Georgia, serif; }
+.story-progress { font-size: 13px; color: #aaa; }
+
+/* Тело сцены */
+.story-body {
+  padding: 1.25rem;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Верхняя часть: текст + картинка ─── */
+.scene-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start;
+  flex: 1;
+}
+
+.scene-main-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #1a1a1a;
+}
+.scene-main-text p + p { margin-top: 0.4rem; }
+
+.scene-image {
+  width: 100%;
+  aspect-ratio: 1 / 0.85;
+  background: #f0ece6;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #bbb;
+}
+.scene-image img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ─── Диалоговый блок ─── */
+.scene-dialog {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #333;
+  margin-bottom: 1.25rem;
+}
+.scene-dialog p + p { margin-top: 0.2rem; }
+
+/* ─── Вопрос и выборы ─── */
+.choice-label {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.choice-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1.1rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s;
+}
+.choice-btn:hover { background: #f5f0eb; border-color: #aaa; }
+
+.choice-main {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #1a1a1a;
+}
+.choice-main::before { content: "→  "; }
+
+.choice-sub {
+  font-size: 12px;
+  color: #888;
+}
+
+/* ─────────────────────────────────────────
+   ФИНАЛ
+───────────────────────────────────────── */
+.ending {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+.ending-icon { font-size: 44px; margin-bottom: 1rem; }
+.ending-title { font-size: 20px; margin-bottom: 0.75rem; }
+.ending-text { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 2rem; }
+
+.restart-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Georgia, serif;
+}
+.restart-btn:hover { background: #f5f0eb; }
+
+/* ─── Один выбор — во всю ширину ─── */
+.choices--single .choice-btn {
+  grid-column: 1 / -1;
+}
+
+/* ─── Экран помощи ─── */
+.help-block {
+  background: #fff;
+  border: 1px solid #e8e2d9;
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 12px;
+}
+.help-title {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 4px;
+}
+.help-phone {
+  font-size: 22px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+.help-desc {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ─── scene-top убираем grid для сцен без картинки ─── */
+.scene-image + .scene-main-text {
+  margin-top: 0;
+}
+
+/* ─── Новый layout: картинка сверху, текст под ней ─── */
+.scene-image {
+  margin-bottom: 1rem;
+}
+.scene-main-text {
+  margin-bottom: 0.75rem;
+}
