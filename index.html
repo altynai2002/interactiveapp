@@ -232,7 +232,24 @@ const stories = {
         question: "Что ты сделаешь?",
         choices: [
           { main: "Молча ждать", sub: "Может, правда объезжают", next: "s3_house" },
-          { main: "Потребовать остановить", sub: "Сказать что выйдешь здесь", next: "s3_house" }
+          { main: "Потребовать остановить", sub: "Сказать что выйдешь здесь", next: "s2_scream" }
+        ]
+      },
+
+      // Потребовать остановить - закрыли рот
+      {
+        id: "s2_scream",
+        image: "images/scene4a.png",
+        text: [
+          "— Остановите машину.",
+          "Ты едва успеваешь договорить.",
+          "Чья-то рука резко закрывает тебе рот.",
+          "Сердце уходит в пятки.",
+        ],
+        dialog: [],
+        question: null,
+        choices: [
+          { main: "Продолжить историю", sub: "", next: "s3_house" }
         ]
       },
 
@@ -561,7 +578,7 @@ function startStory(id) {
 
 function showScene(scene) {
   stepCount++;
-  document.getElementById('storyProgress').textContent = stepCount + ' / ' + currentStory.totalScenes;
+  // document.getElementById('storyProgress').textContent = stepCount + ' / ' + currentStory.totalScenes;
 
   const imgHTML = scene.image
     ? `<div class="scene-image"><img src="${scene.image}" alt="сцена"></div>`
