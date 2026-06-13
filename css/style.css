@@ -72,7 +72,7 @@ body {
 .char-info { font-size: 12px; color: #777; line-height: 1.6; }
 
 /* ─────────────────────────────────────────
-   ЭКРАН ИСТОРИИ — внешняя карточка
+   ЭКРАН ИСТОРИИ
 ───────────────────────────────────────── */
 .story-card {
   background: #fff;
@@ -81,7 +81,6 @@ body {
   overflow: hidden;
 }
 
-/* Шапка */
 .story-header {
   display: flex;
   align-items: center;
@@ -104,7 +103,6 @@ body {
 .story-title { font-size: 15px; font-weight: normal; font-family: Georgia, serif; }
 .story-progress { font-size: 13px; color: #aaa; }
 
-/* Тело сцены */
 .story-body {
   padding: 1.25rem;
   min-height: 520px;
@@ -112,38 +110,31 @@ body {
   flex-direction: column;
 }
 
-/* ─── Верхняя часть: текст + картинка ─── */
-.scene-top {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+.scene-image {
+  width: 100%;
+  max-height: 320px;
+  background: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1rem;
-  align-items: start;
-  flex: 1;
+}
+.scene-image img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
 }
 
 .scene-main-text {
   font-size: 14px;
   line-height: 1.8;
   color: #1a1a1a;
+  margin-bottom: 0.75rem;
 }
 .scene-main-text p + p { margin-top: 0.4rem; }
 
-.scene-image {
-  width: 100%;
-  aspect-ratio: 1 / 0.85;
-  background: #f0ece6;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #bbb;
-}
-.scene-image img { width: 100%; height: 100%; object-fit: cover; }
-
-/* ─── Диалоговый блок ─── */
 .scene-dialog {
   background: #fff;
   border: 1px solid #ddd;
@@ -156,7 +147,6 @@ body {
 }
 .scene-dialog p + p { margin-top: 0.2rem; }
 
-/* ─── Вопрос и выборы ─── */
 .choice-label {
   text-align: center;
   font-size: 14px;
@@ -169,6 +159,8 @@ body {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
+
+.choices--single .choice-btn { grid-column: 1 / -1; }
 
 .choice-btn {
   background: #fff;
@@ -189,10 +181,7 @@ body {
 }
 .choice-main::before { content: "→  "; }
 
-.choice-sub {
-  font-size: 12px;
-  color: #888;
-}
+.choice-sub { font-size: 12px; color: #888; }
 
 /* ─────────────────────────────────────────
    ФИНАЛ
@@ -216,12 +205,9 @@ body {
 }
 .restart-btn:hover { background: #f5f0eb; }
 
-/* ─── Один выбор — во всю ширину ─── */
-.choices--single .choice-btn {
-  grid-column: 1 / -1;
-}
-
-/* ─── Экран помощи ─── */
+/* ─────────────────────────────────────────
+   ЭКРАН ПОМОЩИ
+───────────────────────────────────────── */
 .help-block {
   background: #fff;
   border: 1px solid #e8e2d9;
@@ -229,32 +215,74 @@ body {
   padding: 1.1rem 1.25rem;
   margin-bottom: 12px;
 }
-.help-title {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 4px;
-}
-.help-phone {
-  font-size: 22px;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 6px;
-}
-.help-desc {
-  font-size: 13px;
-  color: #555;
-  line-height: 1.6;
-}
+.help-title { font-size: 13px; color: #888; margin-bottom: 4px; }
+.help-phone { font-size: 22px; font-weight: bold; color: #1a1a1a; margin-bottom: 6px; }
+.help-desc { font-size: 13px; color: #555; line-height: 1.6; }
 
-/* ─── scene-top убираем grid для сцен без картинки ─── */
-.scene-image + .scene-main-text {
-  margin-top: 0;
-}
+/* ─────────────────────────────────────────
+   АДАПТАЦИЯ ПОД ТЕЛЕФОН
+───────────────────────────────────────── */
+@media (max-width: 480px) {
 
-/* ─── Новый layout: картинка сверху, текст под ней ─── */
-.scene-image {
-  margin-bottom: 1rem;
-}
-.scene-main-text {
-  margin-bottom: 0.75rem;
+  body {
+    padding: 1rem 0;
+    display: block;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .main-title { font-size: 18px; }
+  .main-subtitle { font-size: 12px; margin-bottom: 1.25rem; }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .char-card {
+    display: block;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+  }
+
+  .char-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+    margin: 0 auto 0.5rem;
+  }
+
+  .char-name { font-size: 13px; margin-bottom: 0.2rem; }
+  .char-info { font-size: 11px; line-height: 1.4; }
+
+  .story-card {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    min-height: 100vh;
+  }
+
+  .story-header {
+    padding: 0.85rem 1rem;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+  }
+
+  .story-body {
+    padding: 1rem;
+    min-height: calc(100vh - 55px);
+  }
+
+  .choices { grid-template-columns: 1fr; }
+  .choice-btn { padding: 0.9rem 1rem; }
+  .choice-main { font-size: 14px; }
+  .ending { padding: 2rem 0.5rem; }
+  .help-block { padding: 1rem; }
 }
