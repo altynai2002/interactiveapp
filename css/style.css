@@ -3,7 +3,7 @@
 body {
   font-family: Georgia, serif;
   background: #150E56;
-  color: #150E56;
+  color: #222121;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -286,4 +286,33 @@ body {
   .choice-main { font-size: 14px; }
   .ending { padding: 2rem 0.5rem; }
   .help-block { padding: 1rem; }
+}
+
+/* ─── СПЛЕШ-ЭКРАН ─── */
+#splash {
+  position: fixed;
+  inset: 0;
+  background: #fff;        /* белый на весь экран */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+#splash.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#splash img {
+  width: 55%;
+  max-width: 260px;
+  animation: logoAppear 2s ease forwards;
+}
+
+@keyframes logoAppear {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
