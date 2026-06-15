@@ -7,6 +7,11 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- СПЛЕШ-ЭКРАН С ЛОГОТИПОМ -->
+  <div id="splash">
+    <img src="images/logo.webp" alt="Itolkun">
+  </div>
+
 <div class="container">
 
   <!-- ГЛАВНЫЙ ЭКРАН -->
@@ -78,6 +83,22 @@
 </div>
 
 <script>
+
+// ─── СПЛЕШ-ЭКРАН ───
+document.addEventListener('DOMContentLoaded', function() {
+  const splash = document.getElementById('splash');
+  const container = document.querySelector('.container');
+  container.style.visibility = 'hidden';
+
+  setTimeout(function() {
+    splash.classList.add('fade-out');
+    container.style.visibility = 'visible';
+    setTimeout(function() {
+      splash.style.display = 'none';
+    }, 800);
+  }, 3000);
+});
+
 // ─────────────────────────────────────────────
 // ИСТОРИЯ АЙЖАН — полное дерево из PPTX
 // ─────────────────────────────────────────────
@@ -585,7 +606,6 @@ function preloadImages() {
     }
   });
 }
-
 
 function showScene(scene) {
   stepCount++;
