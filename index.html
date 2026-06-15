@@ -569,12 +569,23 @@ let stepCount = 0;
 function startStory(id) {
   currentStory = stories[id];
   stepCount = 0;
+  preloadImages();
   document.getElementById('mainScreen').classList.remove('active');
   document.getElementById('storyScreen').classList.add('active');
   document.getElementById('storyTitle').textContent = currentStory.name;
   const firstScene = currentStory.scenes.find(s => s.id === 's0_start') || currentStory.scenes[0];
   showScene(firstScene);
 }
+
+function preloadImages() {
+  currentStory.scenes.forEach(scene => {
+    if (scene.image) {
+      const img = new Image();
+      img.src = scene.image;
+    }
+  });
+}
+
 
 function showScene(scene) {
   stepCount++;
