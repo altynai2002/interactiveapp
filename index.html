@@ -27,7 +27,7 @@
       <div class="char-card" onclick="startStory('aizhan')">
         <div class="char-avatar">👩</div>
         <p class="char-name">Айжан</p>
-        <p class="char-info">19 лет<br>Студентка<br>Любит рисовать и гулять с подругами</p>
+        <p class="char-info">19 лет<br>Студентка<br>Подрабатывает в кафе</p>
       </div>
       <div class="char-card" onclick="startStory('sezim')">
         <div class="char-avatar">👩‍🍼</div>
@@ -36,7 +36,17 @@
       </div>
     </div>
   </div>
-
+  <!-- ЭКРАН-ПРЕДЫСТОРИЯ -->
+  <div id="introScreen" class="screen">
+    <div class="story-card">
+      <div class="story-header">
+        <button class="back-btn" onclick="goHome()">&#8592;</button>
+        <span class="story-title" id="introTitle"></span>
+        <span class="story-progress"></span>
+      </div>
+      <div class="story-body intro-body" id="introBody"></div>
+    </div>
+  </div>
   <!-- ЭКРАН ИСТОРИИ -->
   <div id="storyScreen" class="screen">
     <div class="story-card">
@@ -107,6 +117,16 @@ const stories = {
   aizhan: {
     name: "История Айжан",
     totalScenes: 8,
+    intro: {
+      time: "23:47",
+      text: [
+        "Сегодня Айжан задержалась на работе.",
+        "Её коллега внезапно уволилась, и пока никого не нашли приходится закрывать кафе самой.",
+        "Уже почти полночь. Последний посетитель ушёл час назад.",
+        "Осталось убрать кафе и можно идти домой.",
+      ],
+      button: "Дальше"
+    },
     scenes: [
 
       // ─────────────────────────────────────────
@@ -116,7 +136,7 @@ const stories = {
         id: "s0_start",
         image: "images/scene01.png",
         text: [
-          "Кафе. Вечер. Последний посетитель ушёл."
+          "Нужно убраться в кафе."
         ],
         dialog: [],
         question: "С чего начать?",
@@ -211,7 +231,7 @@ const stories = {
           { main: "Ой, слышала... страшно как",                        sub: "", next: "s1" },
           { main: "А что она делала поздно ночью на улице?",            sub: "", next: "s1" },
           { main: "Ну ей 27... пора уже замуж, может оно и к лучшему", sub: "", next: "s1" },
-          { main: "Бедная... интересно она сопротивлялась?",            sub: "", next: "s1" }
+          { main: "Интересно, как она сейчас?",            sub: "", next: "s1" }
         ]
       },
 
@@ -270,7 +290,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "s3_house" }
+          { main: "Дальше", sub: "", next: "s3_house" }
         ]
       },
 
@@ -301,7 +321,6 @@ const stories = {
           "— Уже поздно что-то менять, — говорит женщина постарше.",
           "— Люди уже знают.",
           "Ты слышишь, как в другой комнате смеются мужчины.",
-          "Может, если я перестану сопротивляться, меня отпустят."
         ],
         dialog: [],
         question: "Что ты сделаешь?",
@@ -382,7 +401,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "ending_caught" }
+          { main: "Дальше", sub: "", next: "ending_caught" }
         ]
       },
 
@@ -401,7 +420,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "ending_caught" }
+          { main: "Дальше", sub: "", next: "ending_caught" }
         ]
       },
 
@@ -420,7 +439,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "ending_caught" }
+          { main: "Дальше", sub: "", next: "ending_caught" }
         ]
       },
 
@@ -440,7 +459,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "ending_caught" }
+          { main: "Дальше", sub: "", next: "ending_caught" }
         ]
       },
 
@@ -481,7 +500,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "s3_caught_street" }
+          { main: "Дальше", sub: "", next: "s3_caught_street" }
         ]
       },
 
@@ -500,8 +519,9 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "s3_house" }
-        ]
+          { main: "Дальше", sub: "", next: "s3_house" }
+        ],
+        exitOption: true
       },
 
       // Продолжила идти — тоже догнали
@@ -519,8 +539,9 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Продолжить историю", sub: "", next: "s3_house" }
-        ]
+          { main: "Дальше", sub: "", next: "s3_house" }
+        ],
+        exitOption: true
       }
 
     ],
@@ -592,6 +613,35 @@ function startStory(id) {
   stepCount = 0;
   preloadImages();
   document.getElementById('mainScreen').classList.remove('active');
+  showIntro();
+}
+
+function showIntro() {
+  const intro = currentStory.intro;
+  if (!intro) {
+    beginStory();
+    return;
+  }
+
+  const introScreen = document.getElementById('introScreen');
+  document.getElementById('introTitle').textContent = currentStory.name;
+
+  const paragraphs = intro.text.map(p => `<p>${p}</p>`).join('');
+
+  document.getElementById('introBody').innerHTML = `
+    <div class="intro-content">
+      <p class="intro-time">${intro.time || ''}</p>
+      <div class="intro-text">${paragraphs}</div>
+      <button class="intro-btn" onclick="beginStory()">${intro.button || 'Начать'} →</button>
+    </div>
+  `;
+
+  introScreen.classList.add('active');
+  setTimeout(() => introScreen.classList.add('fade-in'), 10);
+}
+
+function beginStory() {
+  document.getElementById('introScreen').classList.remove('active');
   document.getElementById('storyScreen').classList.add('active');
   document.getElementById('storyTitle').textContent = currentStory.name;
   const firstScene = currentStory.scenes.find(s => s.id === 's0_start') || currentStory.scenes[0];
@@ -632,6 +682,10 @@ function showScene(scene) {
     </button>
   `).join('');
 
+  const exitHTML = scene.exitOption
+  ? `<button class="exit-link" onclick="goHome()">Если вам трудно читать дальше — вы можете выйти здесь</button>`
+  : '';
+
   const choicesClass = scene.choices.length === 1 ? 'choices choices--single' : 'choices';
 
   document.getElementById('storyBody').innerHTML = `
@@ -640,6 +694,7 @@ function showScene(scene) {
     ${dialogHTML}
     ${questionHTML}
     <div class="${choicesClass}">${choicesHTML}</div>
+    ${exitHTML}
   `;
 }
 
