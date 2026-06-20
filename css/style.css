@@ -288,6 +288,7 @@ body {
   .help-block { padding: 1rem; }
 }
 
+
 /* ─── СПЛЕШ-ЭКРАН ─── */
 #splash {
   position: fixed;
@@ -315,4 +316,89 @@ body {
 @keyframes logoAppear {
   0%   { opacity: 0; }
   100% { opacity: 1; }
+}
+
+/* ─────────────────────────────────────────
+   ЭКРАН-ПРЕДЫСТОРИЯ
+───────────────────────────────────────── */
+
+/* ─── Плавное появление интро ─── */
+#introScreen {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+#introScreen.active.fade-in {
+  opacity: 1;
+}
+
+.intro-body {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.intro-content {
+  max-width: 420px;
+  padding: 1rem;
+}
+
+.intro-time {
+  font-size: 14px;
+  color: #888;
+  letter-spacing: 3px;
+  margin-bottom: 2rem;
+  font-family: 'Courier New', monospace;
+}
+
+.intro-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #1a1a1a;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.intro-text p {
+  margin-bottom: 1rem;
+}
+
+.intro-text p:last-child {
+  margin-bottom: 0;
+}
+
+.intro-btn {
+  background: #150E56;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Georgia, serif;
+  transition: background 0.15s;
+}
+
+.intro-btn:hover {
+  background: #0d0936;
+}
+
+.exit-link {
+  display: block;
+  background: none;
+  border: none;
+  color: #777;
+  font-size: 12px;
+  font-family: Georgia, serif;
+  margin: 1.5rem auto 0;
+  padding: 0.5rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: #ccc;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+
+.exit-link:hover {
+  color: #444;
 }
