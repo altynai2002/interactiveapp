@@ -124,8 +124,8 @@ body {
 }
 .scene-image img {
   width: 100%;
-  max-height: 320px;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;          /* картинка заполняет всё, обрезая края */
 }
 
 .scene-main-text {
@@ -191,27 +191,34 @@ body {
   text-align: center;
   padding: 2.5rem 1rem;
 }
-.ending-icon { font-size: 44px; margin-bottom: 1rem; }
+
+
+.ending-svg {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 1rem;
+}
 .ending-title { font-size: 20px; margin-bottom: 0.75rem; }
 .ending-text { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 2rem; }
 
 .restart-btn {
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #6b1e2d;
+  color: #fff;
+  border: 1px solid #6b1e2d;
   border-radius: 8px;
   padding: 0.7rem 1.5rem;
   cursor: pointer;
   font-size: 14px;
   font-family: Georgia, serif;
 }
-.restart-btn:hover { background: #f5f0eb; }
+.restart-btn:hover { background: #040208; }
 
 /* ─────────────────────────────────────────
    ЭКРАН ПОМОЩИ
 ───────────────────────────────────────── */
 .help-block {
-  background: #fff;
-  border: 1px solid #e8e2d9;
+  background: #ffffff;
+  border: 1px solid #6b1e2d;
   border-radius: 12px;
   padding: 1.1rem 1.25rem;
   margin-bottom: 12px;
@@ -401,4 +408,44 @@ body {
 
 .exit-link:hover {
   color: #444;
+}
+
+/* Сценв сбежать */
+.scene-sequence {
+  position: relative;
+  width: 100%;
+  height: 280px;              /* такая же высота как у обычной .scene-image */
+  background: #f5f0eb;        /* мягкий фон под картинками */
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.sequence-img {
+  position: absolute;
+  object-fit: cover; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: sequenceShow 6s ease forwards;
+}
+
+@keyframes sequenceShow {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  25%  { opacity: 1; }
+  35%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.sequence-img:last-child {
+  animation: sequenceShowLast 6s ease forwards;
+}
+
+@keyframes sequenceShowLast {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  100% { opacity: 1; }
 }
