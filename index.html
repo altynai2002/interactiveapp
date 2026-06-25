@@ -264,10 +264,9 @@ const stories = {
         text: [
           "Ты смотришь в окно и начинаешь волноваться.",
           "Незнакомые улицы мелькают одна за другой.",
-          "Потом понимаешь: они едут не в сторону её дома.",
+          "Потом понимаешь: они едут не в сторону твоего дома.",
           "Сердце начинает биться быстрее.",
           "Может, они просто объезжают.",
-          "Лучше не устраивать сцену."
         ],
         dialog: [],
         question: "Что ты сделаешь?",
@@ -309,7 +308,7 @@ const stories = {
         question: "Что ты сделаешь?",
         choices: [
           { main: "Попросить отпустить домой", sub: "Объяснить что не согласна", next: "s4_room" },
-          { main: "Промолчать",                sub: "Подождать момента",          next: "s4_room" }
+          { main: "Сопротивляться",                sub: "Вырываться, кричать",          next: "s4_resist" }
         ]
       },
 
@@ -327,6 +326,25 @@ const stories = {
         choices: [
           { main: "Попробовать сбежать", sub: "Пока никто не смотрит", next: "s5_escape" },
           { main: "Остаться в комнате",  sub: "Подчиниться",            next: "ending_stay_athome" }
+        ]
+      },
+
+      // Сопротивление — выбор
+      {
+        id: "s4_resist",
+        image: "images/scene3a.png",
+        text: [
+          "Ты вырываешься.",
+          "Одна из женщин крепко хватает тебя за руки.",
+          "— Не позорься. Тебя не отпустят.",
+          "Другая тихо говорит:",
+          "— Мы тоже через такое проходили. Привыкнешь.",
+          "Еще одна женщина подходит и тебя уводят в комнату.",
+        ],
+        dialog: [],
+        question: "Что ты сделаешь?",
+        choices: [
+          { main: "Дальше", sub: "", next: "s4_room" }
         ]
       },
 
@@ -362,7 +380,7 @@ const stories = {
         dialog: [],
         question: "Что дальше?",
         choices: [
-          { main: "Попробовать открыть дверь", sub: "Может получится",       next: "s7_run" },
+          { main: "Отчаянно трясти заклинившую дверь", sub: "Ну же, откройся!",       next: "s7_run" },
           { main: "Спрятаться в комнате", sub: "Надеюсь не найдут",      next: "s6_hide" }
         ]
       },
@@ -388,7 +406,12 @@ const stories = {
       // Поймали снаружи
       {
         id: "s8_caught_outside",
-        image: "images/scene9.png",
+        imageSequence: [
+          "images/scene9a.png",
+          "images/scene9b.png",
+          "images/scene9c.png",
+          "images/scene9d.png"
+        ],
         text: [
           "Вдруг кто-то резко хватает тебя за руку.",
           "Ты пытаешься вырваться.",
@@ -500,7 +523,7 @@ const stories = {
         dialog: [],
         question: null,
         choices: [
-          { main: "Дальше", sub: "", next: "s3_caught_street" }
+          { main: "Дальше", sub: "", next: "s3_house" }
         ]
       },
 
@@ -548,19 +571,19 @@ const stories = {
 
     endings: {
       caught: {
-        icon: "💔",
+        icon: '<img src="images/heart.svg" class="ending-svg" alt="">',
         title: "Многие девушки так и остаются неуслышанными",
         text: "Ала качуу — это не традиция. Это похищение. В Кыргызстане это уголовное преступление (ст. 155 УК КР). Если ты оказалась в такой ситуации или знаешь кого-то в опасности — немедленно звони 102 или в кризисный центр 0 312 61 61 61.",
         help: true
       },
       caught_street: {
-        icon: "💔",
+        icon: '<img src="images/heart.svg" class="ending-svg" alt="">',
         title: "Многие девушки так и остаются неуслышанными",
         text: "Ала качуу — это не традиция. Это похищение. В Кыргызстане это уголовное преступление (ст. 155 УК КР). Если ты оказалась в такой ситуации или знаешь кого-то в опасности — немедленно звони 102 или в кризисный центр 0 312 61 61 61.",
         help: true
       },
       stay_athome: {
-        icon: "💔",
+        icon: '<img src="images/heart.svg" class="ending-svg" alt="">',
         title: "Многие остаются. Не от согласия, а от страха, стыда и одиночества",
         text: "Ала качуу — это не традиция. Это похищение. В Кыргызстане это уголовное преступление (ст. 155 УК КР). Если ты оказалась в такой ситуации или знаешь кого-то в опасности — немедленно звони 102 или в кризисный центр 0 312 61 61 61.",
         help: true
@@ -661,9 +684,15 @@ function showScene(scene) {
   stepCount++;
   // document.getElementById('storyProgress').textContent = stepCount + ' / ' + currentStory.totalScenes;
 
-  const imgHTML = scene.image
-    ? `<div class="scene-image"><img src="${scene.image}" alt="сцена"></div>`
-    : '';
+  let imgHTML = '';
+  if (scene.imageSequence) {
+    imgHTML = '<div class="scene-sequence">' +
+      scene.imageSequence.map((src, i) => `
+        <img src="${src}" class="sequence-img" style="animation-delay: ${i * 1.5}s">
+      `).join('') + '</div>';
+  } else if (scene.image) {
+    imgHTML = `<div class="scene-image"><img src="${scene.image}" alt="сцена"></div>`;
+  }
 
   const textHTML = scene.text.map(t => `<p>${t}</p>`).join('');
 
@@ -714,7 +743,7 @@ function makeChoice(next) {
 function showEnding(ending) {
   document.getElementById('storyProgress').textContent = '✓';
   const helpBtn = ending.help
-    ? `<button class="restart-btn" onclick="showHelp()" style="margin-bottom:0.75rem; background:#f5f0eb;">📞 Получить помощь</button><br>`
+    ? `<button class="restart-btn" onclick="showHelp()" style="margin-bottom:0.75rem; background:#6b1e2d;">📞 Получить помощь</button><br>`
     : '';
   document.getElementById('storyBody').innerHTML = `
     <div class="ending">
